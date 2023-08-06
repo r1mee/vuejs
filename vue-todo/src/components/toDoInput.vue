@@ -1,15 +1,52 @@
 <template>
-    <div>
-        <input type="text" v-model="newTodoItem">
+    <div class="inputBox shadow">
+        <input type="text" v-model="newTodoItem" v-on:keyup.enter="addTodo">
+        <div>
+            <button type="button" class="addButton" v-on:click="addTodo">
+                추가
+            </button>
+        </div>
     </div>
-  </template>
-  
-  <script>
-  export default {
+</template>
+
+<script>
+export default {
     data: function() {
-      return {
-        newTodoItem: ""
-      }
+        return {
+            newTodoItem: ""
+        }
+    },
+    methods:{
+        addTodo: function(){
+            console.log(this.newTodoItem);
+            localStorage.setItem(this.newTodoItem, this.newTodoItem);
+            this.clearInput();
+        },
+        clearInput:function(){
+            this.newTodoItem="";
+        }
     }
-  }
-  </script>
+}
+</script>
+<style scoped>
+input:focus {
+    outline: none;
+}
+.inputBox {
+    background: white;
+    height: 50px;
+    line-height: 50px;
+    border-radius: 5px;
+}
+.inputBox input {
+    border-style: none;
+    font-size: 0.9rem;
+}
+.addButton {
+    float: right;
+    background: #3d3d3d;
+    width: 3rem;
+    color:#fff;
+    border-radius: 0 5px 5px 0;
+}
+</style>
