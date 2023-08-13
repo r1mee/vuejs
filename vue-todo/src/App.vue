@@ -1,41 +1,34 @@
 <template>
   <div id="app">
-    <TodoHeader></TodoHeader>
-    <TodoInput></TodoInput>
-    <TodoList></TodoList>
-    <TodoFooter></TodoFooter>
+    <nav>
+      <router-link to="/">Home</router-link> | 
+      <router-link to="/about">About</router-link>
+    </nav>
+    <router-view/>
   </div>
 </template>
 
-<script>
-import TodoHeader from './components/toDoHeader.vue'
-import TodoInput from './components/toDoInput.vue'
-import TodoList from './components/toDoList.vue'
-import TodoFooter from './components/toDoFooter.vue'
+<style lang="scss">
+@import '@/assets/styles/global.scss';
 
-export default {
-  components: {
-    'TodoHeader': TodoHeader,
-    'TodoInput': TodoInput,
-    'TodoList': TodoList,
-    'TodoFooter': TodoFooter
-  }
-}
-</script>
-
-<style>
-body {
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  background-color: #F6F6F6;
+  color: #2c3e50;
 }
-input {
-  border-style: groove;
-  width: 200px;
-}
-button {
-  border-style: groove;
-}
-.shadow {
-  box-shadow: 5px 10px 10px rgba(0, 0, 0, 0.03);
+
+nav {
+  padding: 30px;
+
+  a {
+    font-weight: bold;
+    color: #2c3e50;
+
+    &.router-link-exact-active {
+      color: #42b983;
+    }
+  }
 }
 </style>

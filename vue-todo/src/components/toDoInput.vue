@@ -11,6 +11,7 @@
 
 <script>
 export default {
+    name: 'ToDoInput',
     data: function() {
         return {
             newTodoItem: ""
@@ -37,6 +38,7 @@ input:focus {
     height: 50px;
     line-height: 50px;
     border-radius: 5px;
+    outline: 1px solid black;
 }
 .inputBox input {
     border-style: none;
