@@ -1,54 +1,67 @@
 <template>
-    <div class="inputBox shadow">
-        <input type="text" v-model="newTodoItem" v-on:keyup.enter="addTodo">
-        <div>
-            <button type="button" class="addButton" v-on:click="addTodo">
-                추가
-            </button>
-        </div>
+    <div class="input--box shadow">
+        <input type="text" v-model="newTodoItem" placeholder="type what you have to do" v-on:keyup.enter="addTodo">
+        <button type="button" class="button--add" v-on:click="addTodo">
+            <span class="blind">추가</span>
+            <i class="button--icon fas fa-plus" aria-hidden="true"></i>
+        </button>
     </div>
 </template>
 
 <script>
 export default {
     name: 'ToDoInput',
-    data: function() {
-        return {
-            newTodoItem: ""
+    data(){
+        return{
+            newTodoItem: '',
         }
     },
     methods:{
-        addTodo: function(){
-            console.log(this.newTodoItem);
-            localStorage.setItem(this.newTodoItem, this.newTodoItem);
-            this.clearInput();
+        addTodo(){
+            if(this.newTodoItem !== ""){
+                var value = this.newTodoItem && this.newTodoItem.trim();
+                localStorage.setItem(value, value);
+                this.clearInput();
+            }
+            
         },
-        clearInput:function(){
-            this.newTodoItem="";
+        clearInput(){
+            this.newTodoItem = '';
         }
     }
 }
 </script>
-<style scoped>
-input:focus {
-    outline: none;
+
+<style scoped lang="scss">
+input{
+    display:inline-block;
+    padding:0 4rem 0 1rem;
+    box-sizing:border-box;
+    border-radius:5px;
 }
-.inputBox {
-    background: white;
-    height: 50px;
-    line-height: 50px;
-    border-radius: 5px;
-    outline: 1px solid black;
+.input{
+    &--box{
+        position:relative;
+        background:#fff;
+        height:50px;
+        line-height:50px;
+    }
+
 }
-.inputBox input {
-    border-style: none;
-    font-size: 0.9rem;
-}
-.addButton {
-    float: right;
-    background: #3d3d3d;
-    width: 3rem;
-    color:#fff;
-    border-radius: 0 5px 5px 0;
+.button{
+    &--add{
+        position:absolute;
+        top:0;
+        right:0;
+        background:linear-gradient(to right, #6478fb, #8763fb);
+        width:3rem;
+        height:100%;
+        border:0;
+        border-radius:0 5px 5px 0;
+    }
+    &--icon{
+        color:#fff;
+        vertical-align:middle;
+    }
 }
 </style>

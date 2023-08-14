@@ -1,17 +1,17 @@
 <template>
   <div class="home">
     <h1>여기에 완료된 목록을 넣을까</h1>
-    <TestView />
+    <HeaderView />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import TestView from './TestView.vue';
+import HeaderView from './HeaderView.vue';
 
 export default {
   name: 'HomeView',
-  components: { TestView }
+  components: { HeaderView }
 }
 </script>
 
