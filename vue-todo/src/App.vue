@@ -49,6 +49,11 @@ input{
   white-space: nowrap;
   border: 0;
 }
+button{
+  padding:0;
+  border:0;
+  background:none;
+}
 nav {
   padding: 30px;
 
