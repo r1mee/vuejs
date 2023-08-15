@@ -1,7 +1,7 @@
 <template>
     <section>
         <ul class="todo--list">
-            <li class="todo--item" v-for="(todoItem,index) in todoItems" :key="todoItem">
+            <li class="todo--item" v-for="(todoItem,index) in propsdata" :key="todoItem">
                 <i class="check--icon fas fa-check" aria-hidden="true"></i>
                 <p class="text">{{ todoItem }}</p>
                 <button type="button" class="button--remove" @click="removeTodo(todoItem, index)">
@@ -13,22 +13,10 @@
 </template>
 <script>
 export default{
-    data(){
-        return{
-            todoItems: []
-        }
-    },
-    created(){
-        if(localStorage.length > 0){
-            for(var i = 0 ; i < localStorage.length; i++){
-                this.todoItems.push(localStorage.key(i));
-            }
-        }
-    },
+    props: ['propsdata'],
     methods:{
         removeTodo(todoItem, index){
-            localStorage.removeItem(todoItem);
-            this.todoItems.splice(index,1);
+            this.$emit('removeTodo', todoItem, index);
         }
         
     }

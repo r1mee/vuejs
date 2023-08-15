@@ -1,9 +1,9 @@
 <template>
   <div class="home">
-    <HeaderView />
-    <ToDoInput />
-    <ListView />
-    <FooterView />
+    <HeaderView></HeaderView>
+    <ToDoInput @addTodo="addTodo"></ToDoInput>
+    <ListView v-bind:propsdata="todoItems" @removeTodo="removeTodo"></ListView>
+    <FooterView @clearTodo="clearTodo"></FooterView>
   </div>
 </template>
 
@@ -14,13 +14,39 @@ import ToDoInput from '@/components/ToDoInput.vue';
 import ListView from './ListView.vue';
 import FooterView from './FooterView.vue';
 
-export default {
+export default{
   name: 'HomeView',
-  components: { 
-    HeaderView, 
-    ToDoInput,
-    ListView, 
-    FooterView,
+  data(){
+    return{
+      todoItems: []
+    }
+  },
+  created(){
+    if(localStorage.length > 0){
+        for(var i = 0 ; i < localStorage.length; i++){
+            this.todoItems.push(localStorage.key(i));
+        }
+    }
+  },
+  methods:{
+    addTodo(todoItem){
+      localStorage.setItem(todoItem,todoItem);
+      this.todoItems.push(todoItem);
+    },
+    removeTodo(todoItem, index){
+      localStorage.removeItem(todoItem);
+      this.todoItems.splice(index,1);
+    },
+    clearTodo(){
+      localStorage.clear();
+      this.todoItems = [];
+    }
+  },
+  components:{
+    'HeaderView' : HeaderView, 
+    'ToDoInput' : ToDoInput,
+    'ListView' : ListView, 
+    'FooterView' : FooterView,
   }
 }
 </script>

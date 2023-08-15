@@ -7,7 +7,7 @@
 export default{
     methods:{
         clearTodo(){
-            localStorage.clear();
+            this.$emit('clearTodo');
         }
     }
 }
@@ -24,6 +24,7 @@ export default{
     }
     &--button{
         display:block;
+        width:100%;
         height:100%;
         margin:20px auto 0;
         color:#e20303;

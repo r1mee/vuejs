@@ -1,6 +1,6 @@
 <template>
     <div class="input--box shadow">
-        <input type="text" v-model="newTodoItem" placeholder="type what you have to do" v-on:keyup.enter="addTodo">
+        <input type="text" v-model="newTodoItem" v-on:keyup.enter="addTodo">
         <button type="button" class="button--add" v-on:click="addTodo">
             <span class="blind">추가</span>
             <i class="button--icon fas fa-plus" aria-hidden="true"></i>
@@ -20,7 +20,7 @@ export default {
         addTodo(){
             if(this.newTodoItem !== ""){
                 var value = this.newTodoItem && this.newTodoItem.trim();
-                localStorage.setItem(value, value);
+                this.$emit('addTodo', value);
                 this.clearInput();
             }
             
