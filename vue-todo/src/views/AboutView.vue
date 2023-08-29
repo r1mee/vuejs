@@ -1,6 +1,6 @@
 <template>
   <div class="about">
-    <h1>done</h1>
+    <h1>.. 상세 </h1>
   </div>
 </template>
 

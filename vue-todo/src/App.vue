@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <nav>
-      <router-link to="/">Home</router-link> | 
-      <router-link to="/about">About</router-link>
+      <router-link to="/">TODO 목록</router-link> | 
+      <router-link to="/about">TODO 상세</router-link>
     </nav>
     <router-view/>
   </div>
@@ -24,13 +24,22 @@ body{
     text-align:center;
     background-color:#f6f6f8;
 }
-
+nav{
+  display:flex;
+  justify-content:start;
+  a{
+    margin:0 20px;
+    &:first-child{
+      margin-left:0;
+    }
+  }
+}
 .shadow{
-    box-shadow: 5px 10px 10px rgba(0,0,0,.3);
+    box-shadow: 5px 4px 9px 3px rgba(0, 0, 0, 0.3)
 }
 input{
   width:100%;
-  height:100%;
+  height:50px;
   border-style: none;
   font-size:0.9rem;
   

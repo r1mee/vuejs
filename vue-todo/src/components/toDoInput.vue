@@ -44,6 +44,7 @@ input{
         position:relative;
         background:#fff;
         height:50px;
+        margin-top:20px;
         line-height:50px;
     }
 

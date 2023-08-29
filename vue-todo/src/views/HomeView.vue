@@ -1,8 +1,13 @@
 <template>
   <div class="home">
-    <HeaderView></HeaderView>
+    <HeaderView :todoItems="todoItems"></HeaderView>
     <ToDoInput @addTodo="addTodo"></ToDoInput>
-    <ListView v-bind:propsdata="todoItems" @removeTodo="removeTodo"></ListView>
+    <ListView 
+      v-bind:propsdata="todoItems" 
+      @removeTodo="removeTodo" 
+      @editTodo="editTodo">
+    </ListView>
+
     <FooterView @clearTodo="clearTodo"></FooterView>
   </div>
 </template>
@@ -16,9 +21,16 @@ import FooterView from './FooterView.vue';
 
 export default{
   name: 'HomeView',
+  components:{
+    'HeaderView' : HeaderView, 
+    'ToDoInput' : ToDoInput,
+    'ListView' : ListView, 
+    'FooterView' : FooterView,
+  },
   data(){
     return{
-      todoItems: []
+      todoItems: [],
+
     }
   },
   created(){
@@ -40,19 +52,27 @@ export default{
     clearTodo(){
       localStorage.clear();
       this.todoItems = [];
-    }
+    },
+    editTodo(index, editedTodo) {
+      const currentTime = new Date().toLocaleString();
+      const storedTodo = localStorage.getItem(this.todoItems[index]);
+
+      if (storedTodo) {
+        const updatedDate = `${editedTodo} (수정: ${currentTime})`;
+        localStorage.setItem(updatedDate, storedTodo);
+      }
+      this.todoItems[index] = `${editedTodo} (수정: ${currentTime})`;
+    },
   },
-  components:{
-    'HeaderView' : HeaderView, 
-    'ToDoInput' : ToDoInput,
-    'ListView' : ListView, 
-    'FooterView' : FooterView,
-  }
 }
 </script>
 
 <style scoped lang="scss">
 .home{
-  padding:2rem;
+  position:relative;
+  min-height:500px;
+  margin:60px;
+  padding:20px;
+  background:#fff;
 }
 </style>
