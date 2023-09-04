@@ -36,32 +36,45 @@ export default{
   created(){
     if(localStorage.length > 0){
         for(var i = 0 ; i < localStorage.length; i++){
-            this.todoItems.push(localStorage.key(i));
+            this.todoItems.push({key: i, value: localStorage.getItem(i)});
         }
     }
   },
   methods:{
     addTodo(todoItem){
-      localStorage.setItem(todoItem,todoItem);
-      this.todoItems.push(todoItem);
+      const key = this.todoItems.length;
+      localStorage.setItem(key, todoItem);
+      this.todoItems = [...this.todoItems, {key, value:todoItem}];
     },
-    removeTodo(todoItem, index){
-      localStorage.removeItem(todoItem);
+    removeTodo(index, key){
+      console.log(key, localStorage.getItem(key))
+      localStorage.removeItem(key);
       this.todoItems.splice(index,1);
     },
     clearTodo(){
       localStorage.clear();
       this.todoItems = [];
     },
-    editTodo(index, editedTodo) {
-      const currentTime = new Date().toLocaleString();
-      const storedTodo = localStorage.getItem(this.todoItems[index]);
+    editTodo(index, key, newTodo) {
+      try {
+        const currentTime = new Date().toLocaleString();
+        const storedTodo = localStorage.getItem(key);
 
-      if (storedTodo) {
-        const updatedDate = `${editedTodo} (수정: ${currentTime})`;
-        localStorage.setItem(updatedDate, storedTodo);
+        if (!storedTodo) {
+          throw new Error('존재하지 않는 Todo를 수정하려합니다')
+        }
+
+        // {key: value {content: ''updateDate: '',createDate: '',}}
+        const updatedDate = `${newTodo} (수정: ${currentTime})`;
+
+        const newTodoItems = [...this.todoItems];
+        newTodoItems[index] = {...newTodoItems[index], value:updatedDate}
+
+        this.todoItems = newTodoItems;
+        localStorage.setItem(key, updatedDate);
+      } catch (error) {
+        //...
       }
-      this.todoItems[index] = `${editedTodo} (수정: ${currentTime})`;
     },
   },
 }

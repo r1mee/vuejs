@@ -10,22 +10,22 @@
             <li class="todo--item" v-for="(todoItem,index) in sortedPropsdata" :key="index">
                 <i class="check--icon fas fa-check" aria-hidden="true"></i>
                 <div class="write--mode">
-                    <p v-if="index !== editIndex" class="text">{{ todoItem }}</p>
-                    <input v-else v-model="editedTodo" class="text" @keyup.enter="saveTodo(index)" @blur="saveTodo(index)">
+                    <p v-if="index !== editIndex" class="text">{{ todoItem.value }}</p>
+                    <input v-else v-model="editedTodo" class="text" @keyup.enter="saveTodo(index)" @blur="saveTodo(index, todoItem.key)">
                 </div>              
                 <div class="button--wrap">
                     <button 
                         v-if="index !== editIndex" 
                         type="button" 
                         class="button--edit" 
-                        @click="startEditing(index)"
+                        @click="startEditing(todoItem.key)"
                     >
                         <i class="edit--icon far fa-edit" aria-hidden="true"></i>
                     </button>
                     <button 
                         type="button" 
                         class="button--remove" 
-                        @click="removeTodo(todoItem,index)"
+                        @click="removeTodo(index, todoItem.key)"
                     >
                         <i class="remove--icon far fa-trash-alt" aria-hidden="true"></i>
                     </button>
@@ -39,7 +39,7 @@ export default{
     props: ['propsdata'],
     data() {
         return {
-            editIndex: -1,
+            editIndex: null,
             editedTodo: '',
             sortOrder: 'latest',
         };
@@ -56,16 +56,22 @@ export default{
         }
     },
     methods:{
-        removeTodo(todoItem, index){
-            this.$emit('removeTodo', todoItem, index);
+        removeTodo(index_, key){
+            const index = this.propsdata?.findIndex((todo) => {
+                return key === todo.key;
+            });
+            this.$emit('removeTodo', index, key);
         },
-        startEditing(index) {
-            this.editIndex = index;
-            this.editedTodo = this.propsdata[index];
+        startEditing(key) {
+            const index = this.propsdata?.findIndex((todo) => {
+                return key === todo.key;
+            });
+
+            this.editedTodo = this.propsdata[index].value;
         },
-        saveTodo(index) {
-            this.$emit('editTodo', index, this.editedTodo);
-            this.editIndex = -1;
+        saveTodo(index, key) {
+            this.$emit('editTodo', index, key, this.editedTodo);
+            this.editIndex = null;
         },
         
     }
