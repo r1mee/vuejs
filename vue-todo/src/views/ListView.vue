@@ -1,24 +1,25 @@
 <template>    
     <section>        
         <div class="sort">
-            <select v-model="sortOrder">
-                <option value="latest">최근 목록</option>
+            <select v-model="sortOrder">                
                 <option value="oldest">과거 목록</option>
+                <!-- <option value="latest">최근 목록</option> -->
             </select>
         </div>
         <ul class="todo--list">
             <li class="todo--item" v-for="(todoItem,index) in sortedPropsdata" :key="index">
                 <i class="check--icon fas fa-check" aria-hidden="true"></i>
-                <div class="write--mode">
-                    <p v-if="index !== editIndex" class="text">{{ todoItem.value }}</p>
-                    <input v-else v-model="editedTodo" class="text" @keyup.enter="saveTodo(index)" @blur="saveTodo(index, todoItem.key)">
-                </div>              
+                <div class="write--mode" v-if="editIndex !== index">
+                    <p class="text">{{ todoItem.value }}</p>
+                </div>
+                <div class="edit--mode" v-else>
+                    <input v-model="editedTodo" @keyup.enter="saveTodo(todoItem.key)" />
+                </div>
                 <div class="button--wrap">
                     <button 
-                        v-if="index !== editIndex" 
                         type="button" 
                         class="button--edit" 
-                        @click="startEditing(todoItem.key)"
+                        @click="editTodo(index)"
                     >
                         <i class="edit--icon far fa-edit" aria-hidden="true"></i>
                     </button>
@@ -41,7 +42,7 @@ export default{
         return {
             editIndex: null,
             editedTodo: '',
-            sortOrder: 'latest',
+            sortOrder: 'oldest',
         };
     },
     computed:{
@@ -61,15 +62,17 @@ export default{
                 return key === todo.key;
             });
             this.$emit('removeTodo', index, key);
-        },
-        startEditing(key) {
-            const index = this.propsdata?.findIndex((todo) => {
-                return key === todo.key;
-            });
-
+        },       
+        editTodo(index) {
+            this.editIndex = index;
             this.editedTodo = this.propsdata[index].value;
         },
-        saveTodo(index, key) {
+        // saveTodo(index, key) {
+        //     this.$emit('editTodo', index, key, this.editedTodo);
+        //     this.editIndex = null;
+        // },
+        saveTodo(key) {
+            const index = this.propsdata.findIndex((todo) => todo.key === key);
             this.$emit('editTodo', index, key, this.editedTodo);
             this.editIndex = null;
         },

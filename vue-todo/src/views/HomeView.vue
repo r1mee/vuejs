@@ -57,7 +57,7 @@ export default{
     },
     editTodo(index, key, newTodo) {
       try {
-        const currentTime = new Date().toLocaleString();
+        // const currentTime = new Date().toLocaleString();
         const storedTodo = localStorage.getItem(key);
 
         if (!storedTodo) {
@@ -65,7 +65,7 @@ export default{
         }
 
         // {key: value {content: ''updateDate: '',createDate: '',}}
-        const updatedDate = `${newTodo} (수정: ${currentTime})`;
+        const updatedDate = newTodo;
 
         const newTodoItems = [...this.todoItems];
         newTodoItems[index] = {...newTodoItems[index], value:updatedDate}
